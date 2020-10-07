@@ -1,11 +1,14 @@
 import speech_recognition as sr
- 
+import os
+
 r = sr.Recognizer()
 
 text_array = []
 
-for i in range(11):
-    name = "sample" + str(i) + ".wav"
+files_count = len(os.listdir("./data"))
+
+for i in range(files_count):
+    name = "data/" + str(i) + ".wav"
     print(name)
     with sr.AudioFile(name) as source:
         audio = r.record(source)
@@ -16,9 +19,14 @@ for i in range(11):
     except:
         pass
 
-# with sr.AudioFile("sample.wav") as source:
-#     audio = r.record(source)
-#  
-# text = r.recognize_google(audio, language='ja-JP')
- 
 print(text_array)
+
+output_array = []
+
+for text in text_array:
+    output_array = output_array + text.split(" ")
+
+print(output_array)
+
+with open("sample.txt", mode="w") as f:
+    f.write("\n".join(output_array))
